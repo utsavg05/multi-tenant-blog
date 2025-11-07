@@ -5,23 +5,38 @@ import Nvabar from "../../components/nav";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
+import { createBlog } from '@/app/org/[slug]/actions'
+import { useOrganization } from "@clerk/nextjs";
 
 export default function OraganizationLandingPage() {
     const [blogContent, setBlogContent] = useState("");
     const [blogTitle, setBlogTitle] = useState("");
+
+    const selectedOrg = useOrganization()
+    console.log(selectedOrg)
+
+    const handleCreateBlog = async () => {
+        if (!selectedOrg.organization?.id) return
+        await createBlog({
+            title: blogTitle,
+            body: blogContent.trim(),
+            orgId: selectedOrg.organization?.id
+        })
+    }
+
     return (
         <main>
             <Nvabar />
             <div className="p-10">
                 <Input
-                placeholder="Title"
-                value={blogTitle} onChange={e => setBlogTitle(e.target.value)} />
+                    placeholder="Title"
+                    value={blogTitle} onChange={e => setBlogTitle(e.target.value)} />
                 <Textarea
-                placeholder="Place your content here"
-                className="mt-2"
-                value={blogContent}
-                onChange={e => setBlogContent(e.target.value)}/>
-                <Button className="mt-2">Create Blog</Button>
+                    placeholder="Place your content here"
+                    className="mt-2"
+                    value={blogContent}
+                    onChange={e => setBlogContent(e.target.value)} />
+                <Button onClick={handleCreateBlog} className="mt-2">Create Blog</Button>
             </div>
 
         </main>
