@@ -1,12 +1,12 @@
 "use client"
 
 import { Textarea } from "@/components/ui/textarea";
-import Nvabar from "../../components/nav";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
-import { createBlog } from '@/app/org/[slug]/actions'
+import { createBlog } from '@/app/(root)/org/[slug]/actions'
 import { useOrganization } from "@clerk/nextjs";
+import Nvabar from "@/app/components/nav";
 
 export default function OraganizationLandingPage() {
     const [blogContent, setBlogContent] = useState("");
